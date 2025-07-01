@@ -19,7 +19,7 @@ Built for real engineers who hate writing the same storage code across 5 project
 ---
 
 ## 📁 Project Structure
-
+```
 📦 FileStorage
 ├── Abstraction                     # Interfaces and shared contracts
 ├── Core                            # Shared logic and utilities
@@ -27,7 +27,7 @@ Built for real engineers who hate writing the same storage code across 5 project
 ├── Implementation.LocalFileSystem # Local disk-based implementation
 ├── Implementation.WebApi          # Upload to backend via HTTP
 └── Test                            # Unit and integration tests
-
+```
 ---
 
 ## 🚀 Usage (Example)
