@@ -1,0 +1,52 @@
+# Build results
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+*.cache
+*.dbmdl
+
+# Rider / VSCode / JetBrains
+.idea/
+.vscode/
+*.DotSettings.user
+
+# Visual Studio
+.vs/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+
+# Logs / Temp
+*.log
+*.tmp
+*.temp
+*.bak
+
+# User-specific
+*.userprefs
+*.userosscache
+*.sln.docstates
+
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Other system stuff
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Build artifacts
+FileStorage.*/bin/
+FileStorage.*/obj/
+FileStorage.Test/TestResults/
+
+# Optional: ignore secrets
+secrets.json
+*.secret.config
+*.env
