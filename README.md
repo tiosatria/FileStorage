@@ -101,9 +101,9 @@ Use it. Extend it. Abuse it (ethically).
 
 ## 🤝 Contributing
 
-If you write good code, open a PR.
-If you write garbage, open a PR and we’ll fix it together.
-If you're a vibe coder... go away.
+- If you write good code, open a PR.
+- If you write garbage, open a PR and we’ll fix it together.
+- If you're a vibe coder... go away.
 
 ## 🧠 Why Tho?
 Because real projects deserve real engineering—not spaghetti cloud SDK wrappers duct-taped to the controller layer.
