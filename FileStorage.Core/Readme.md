@@ -17,7 +17,7 @@ This project is **not tied to any specific provider**. Its purpose is to provide
 
 ## 📦 Dependencies
 
-- Depends on: `FileStorage.Abstraction`
+- Depends on: `FileStorage.Abstraction`, `Microsoft.Extensions.DependecyInjection`
 - Used by: All implementation modules (`FileStorage.Implementation.Aws`, `FileStorage.Implementation.WebApi`, etc.)
 
 ---
