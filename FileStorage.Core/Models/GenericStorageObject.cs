@@ -1,10 +1,9 @@
 ﻿
 using FileStorage.Abstraction.Contracts;
-using HeyRed.Mime;
 
 namespace FileStorage.Core.Models
 {
-    public abstract class GenericStorageObject : IStorageObject, IDisposable, IAsyncDisposable
+    public abstract class GenericStorageObject : IStorageObject
     {
 
         /// <summary>

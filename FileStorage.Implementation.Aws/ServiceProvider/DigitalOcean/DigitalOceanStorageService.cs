@@ -22,8 +22,8 @@ namespace FileStorage.Implementation.Aws.ServiceProvider.DigitalOcean
 
         protected override Version StorageVersion => Ver;
 
-        protected override string? MakeAccessUrl(string key)
-            => CdnUrl != null ? $"{Path.Combine(CdnUrl, key)}" : null;
+        public override string MakeAccessUrl(string key)
+            => CdnUrl != null ? $"{Path.Combine(CdnUrl, key)}" : Path.Combine(Client.Config.ServiceURL, key);
 
         /// <summary>
         /// Please cache this result as it is expensive to call

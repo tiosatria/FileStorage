@@ -32,7 +32,7 @@ namespace FileStorage.Implementation.Aws
 
         protected abstract Version StorageVersion { get; }
 
-        protected abstract string? MakeAccessUrl(string key);
+        public abstract string MakeAccessUrl(string key);
 
         // override your convention here
         protected virtual string MakeFilePath(string filePath) => $"{StorageKey}://{filePath}";
@@ -156,6 +156,50 @@ namespace FileStorage.Implementation.Aws
         /// </summary>
         /// <returns>Storage information</returns>
         public abstract Task<IStorageInfo> GetStorageInfoAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Generates a pre-signed URL for accessing an object in the storage bucket.
+        /// </summary>
+        /// <remarks>The pre-signed URL allows temporary access to the object without requiring
+        /// authentication. Use this method to share access to objects securely for a limited time.</remarks>
+        /// <param name="key">The key identifying the object in the storage bucket.</param>
+        /// <param name="ts">The optional expiration time for the pre-signed URL. If not specified, the URL will expire after 24 hours.</param>
+        /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+        /// <returns>A pre-signed URL that can be used to access the specified object.</returns>
+        public virtual async Task<string> GetPreSignedUrlAsync(string key, TimeSpan? ts = null, CancellationToken cancellationToken = default)
+        {
+            var expTs = ts ?? TimeSpan.FromHours(24);
+            var req = new GetPreSignedUrlRequest()
+            {
+                Key = key,
+                BucketName = BucketName,
+                Verb = HttpVerb.GET,
+                Expires = DateTime.UtcNow.Add(expTs)
+            };
+            cancellationToken.ThrowIfCancellationRequested();
+            return await Client.GetPreSignedURLAsync(req);
+        }
+
+        /// <summary>
+        /// Generates a pre-signed URL for accessing an object in the bucket.
+        /// </summary>
+        /// <remarks>The pre-signed URL allows temporary access to the object without requiring
+        /// authentication. Use this method to share access to objects securely for a limited time.</remarks>
+        /// <param name="key">The key of the object for which the pre-signed URL is generated.</param>
+        /// <param name="ts">An optional expiration time for the pre-signed URL. If not specified, the URL will expire after 24 hours.</param>
+        /// <returns>A string containing the pre-signed URL that can be used to access the object.</returns>
+        public virtual string GetPreSignedUrl(string key, TimeSpan? ts = null)
+        {
+            var expTs = ts ?? TimeSpan.FromHours(24);
+            var req = new GetPreSignedUrlRequest()
+            {
+                Key = key,
+                BucketName = BucketName,
+                Verb = HttpVerb.GET,
+                Expires = DateTime.UtcNow.Add(expTs)
+            };
+            return Client.GetPreSignedURL(req);
+        }
 
     }
 }
