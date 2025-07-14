@@ -110,5 +110,3 @@ Because real projects deserve real engineering—not spaghetti cloud SDK wrapper
 This lib is part of a larger mission to build reliable, testable, low-maintenance infrastructure pieces for .NET apps that scale clean.
 
 Made with blood, caffeine, and zero tolerance for bullshit.
-
-— Tio x Rancid
