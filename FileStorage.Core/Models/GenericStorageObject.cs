@@ -83,7 +83,7 @@ namespace FileStorage.Core.Models
         public string FileName { get; init; }
         public FileVisibilityEnum Visibility { get; init; }
         public string ContentType { get; init; }
-        public long ContentLengthBytesBytes => Content.Length;
+        public long ContentLengthBytes => Content.Length;
         public string? FileExtension { get;  init; }
 
         public DateTime? LastModifiedUtc { get; init; }

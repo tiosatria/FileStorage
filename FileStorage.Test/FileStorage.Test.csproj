@@ -21,7 +21,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FileStorage.Abstraction\FileStorage.Abstraction.csproj" />
+    <ProjectReference Include="..\FileStorage.Core\FileStorage.Core.csproj" />
+    <ProjectReference Include="..\FileStorage.Implementation.Aws\FileStorage.Implementation.Aws.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sample\" />
   </ItemGroup>
 
 </Project>

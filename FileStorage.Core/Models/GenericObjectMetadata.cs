@@ -14,7 +14,7 @@ namespace FileStorage.Core.Models
             FilePath = storageObj.FilePath;
             Visibility = storageObj.Visibility;
             ContentType = storageObj.ContentType;
-            ContentLengthBytesBytes = storageObj.ContentLengthBytesBytes;
+            ContentLengthBytes = storageObj.ContentLengthBytes;
             FileExtension = storageObj.FileExtension;
             CreatedAtUtc = storageObj.CreatedAtUtc;
             LastModifiedUtc = storageObj.LastModifiedUtc;
@@ -33,7 +33,7 @@ namespace FileStorage.Core.Models
             Visibility = visibility;
             ContentType = contentType ?? Utilities.GuessContentType(fullPath);
             var info = new FileInfo(fullPath);
-            ContentLengthBytesBytes = info.Length;
+            ContentLengthBytes = info.Length;
             FileExtension = info.Extension;
             LastModifiedUtc = info.LastWriteTimeUtc;
             CreatedAtUtc = info.CreationTimeUtc;
@@ -43,7 +43,7 @@ namespace FileStorage.Core.Models
         {
             FilePath = fullPath;
             (FileName, FileExtension,ContentType) = Utilities.GetBaseFileInfoFromPath(fullPath);
-            ContentLengthBytesBytes=contentLengthBytes;
+            ContentLengthBytes=contentLengthBytes;
             CreatedAtUtc=utcCreated;
             LastModifiedUtc=utcModified;
             Visibility = visibility;
@@ -53,7 +53,7 @@ namespace FileStorage.Core.Models
         public string FileName { get; init; }
         public FileVisibilityEnum Visibility { get; init; }
         public string ContentType { get; init; }
-        public long ContentLengthBytesBytes { get; init; }
+        public long ContentLengthBytes { get; init; }
         public string? FileExtension { get; init; }
         public DateTime? LastModifiedUtc { get; init; }
         public DateTime? CreatedAtUtc { get; init; }

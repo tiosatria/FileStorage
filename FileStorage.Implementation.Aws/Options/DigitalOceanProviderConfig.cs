@@ -1,6 +1,5 @@
 ﻿
 
-
 namespace FileStorage.Implementation.Aws.Options
 {
     public class DigitalOceanProviderConfig : AwsProviderConfig

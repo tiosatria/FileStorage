@@ -32,14 +32,17 @@ namespace FileStorage.Implementation.Aws
 
         protected abstract Version StorageVersion { get; }
 
-        public abstract string MakeAccessUrl(string key);
+        public virtual string MakeAccessUrl(string key)
+        {
+            return Path.Combine(Client.Config.ServiceURL, key);
+        }
 
         // override your convention here
         protected virtual string MakeFilePath(string filePath) => $"{StorageKey}://{filePath}";
 
         public async Task<IFileUploadResult> UploadAsync(IUploadStorageObject uploadStorageObject,
-            EventHandler<StorageTransferProgressArgs>? uploadProgressEvent = null,
-            CancellationToken cancellationToken = default)
+     EventHandler<StorageTransferProgressArgs>? uploadProgressEvent = null,
+     CancellationToken cancellationToken = default)
         {
             try
             {
@@ -47,8 +50,14 @@ namespace FileStorage.Implementation.Aws
                     throw new IncompatibleUploadObjectException<S3UploadObject>(uploadStorageObject);
 
                 var key = s3Obj.Key;
-
                 cancellationToken.ThrowIfCancellationRequested();
+
+                // Ensure stream is at the beginning
+                if (uploadStorageObject.Content.CanSeek)
+                {
+                    uploadStorageObject.Content.Position = 0;
+                }
+
                 using var transferUtility = new TransferUtility(Client);
                 var request = new TransferUtilityUploadRequest
                 {
@@ -58,10 +67,13 @@ namespace FileStorage.Implementation.Aws
                     ContentType = uploadStorageObject.ContentType,
                     CannedACL = s3Obj.CannedAcl,
                     AutoCloseStream = false,
-                    AutoResetStreamPosition = true
+                    AutoResetStreamPosition = true,
+                    // Explicitly disable payload signing for streaming uploads
+                    DisablePayloadSigning = true
                 };
 
                 cancellationToken.ThrowIfCancellationRequested();
+
                 if (uploadProgressEvent != null)
                     request.UploadProgressEvent += (sender, args) =>
                     {
@@ -75,12 +87,19 @@ namespace FileStorage.Implementation.Aws
                 await transferUtility.UploadAsync(request, cancellationToken);
                 var utcFinished = DateTime.UtcNow;
 
-                return S3UploadResponse.Success(utcStartUpload, utcFinished, key, MakeFilePath(key), MakeAccessUrl(key), request.TagSet.ToString(), request.Metadata);
-
+                return S3UploadResponse.Success(utcStartUpload, utcFinished, key, MakeFilePath(key),
+                    MakeAccessUrl(key), request.TagSet?.ToString(), request.Metadata);
             }
             catch (FileStorageException e)
             {
                 return S3UploadResponse.Failure(e);
+            }
+            catch (AmazonS3Exception s3Ex) when (s3Ex.ErrorCode == "SignatureDoesNotMatch" ||
+                                                s3Ex.Message.Contains("x-amz-content-sha256"))
+            {
+                // Handle SHA256 mismatch specifically
+                var error = new FileStorageException($"S3 content hash mismatch: {s3Ex.Message}", s3Ex);
+                return S3UploadResponse.Failure(error);
             }
             // handle unhandled exception
             catch

@@ -1,4 +1,5 @@
 ﻿
+using FileStorage.Core.Utils;
 using HeyRed.Mime;
 
 namespace FileStorage.Core
@@ -9,7 +10,7 @@ namespace FileStorage.Core
             => MimeGuesser.GuessMimeType(stream);
 
         public static string GuessContentType(string fullPath)
-        => MimeGuesser.GuessMimeType(fullPath);
+            => MimeTypeHelper.GetContentTypeFromFilename(fullPath);
 
         public static string GuessExtension(string fullPath) 
         => MimeGuesser.GuessMimeType(fullPath);
@@ -21,7 +22,7 @@ namespace FileStorage.Core
         => stream.Length;
 
         public static (string fileName, string fileExt, string contentType) GetBaseFileInfoFromPath(string fullPath)
-        => (Path.GetFileName(fullPath), Path.GetExtension(fullPath), MimeGuesser.GuessMimeType(fullPath)
+        => (Path.GetFileName(fullPath), Path.GetExtension(fullPath), GuessContentType(fullPath)
             );
 
         /// <summary>

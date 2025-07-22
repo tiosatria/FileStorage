@@ -22,7 +22,7 @@ namespace FileStorage.Implementation.Aws.Models
             CannedAcl = acl;
         }
 
-        public S3StorageObject(GetObjectResponse getObj, S3CannedACL acl) : base(getObj.ResponseStream, getObj.Key, visibility: acl.ToFileVisibilityEnum())
+        public S3StorageObject(GetObjectResponse getObj, S3CannedACL acl) : base(getObj.ResponseStream, getObj.Key, contentType: getObj.Headers.ContentType, visibility: acl.ToFileVisibilityEnum())
         {
             CannedAcl = acl;
             Key = getObj.Key;

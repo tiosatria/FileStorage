@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace FileStorage.Implementation.Aws.ServiceProvider.DigitalOcean
 {
-    public class DigitalOceanService() : StorageServiceLifetime<DigitalOceanStorageService>
+    public class DigitalOceanStorageServiceLifetime() : StorageServiceLifetime<DigitalOceanStorageService>
     {
         protected sealed override DigitalOceanStorageService BuildUnderlyingService(IServiceProvider sp)
         {
