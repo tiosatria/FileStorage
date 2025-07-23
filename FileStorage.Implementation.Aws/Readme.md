@@ -19,7 +19,8 @@ Each S3-compatible provider has its own configuration class and registration hel
 
 ### ✅ Available:
 
-- [DigitalOcean Spaces](./ServiceProvider/DigitalOcean/README.md) — complete and production-ready
+- [DigitalOcean Spaces](./ServiceProvider/DigitalOcean/README.md) — production-ready
+- [Wasabi Cloud Storage](./ServiceProvider/DigitalOcean/README.md) - production-ready - unit tested
 
 ### 🛣️ Planned (Roadmap):
 
